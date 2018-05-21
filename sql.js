@@ -86,7 +86,7 @@ Returns a SQL query string that will find the number of male medalists.
 */
 
 const numberMenMedalists = country => {
-  return;
+  return `SELECT COUNT(DISTINCT name) FROM GoldMedal WHERE country = '${country}' AND gender = 'Men';`;
 };
 
 /*
@@ -94,7 +94,7 @@ Returns a SQL query string that will find the number of female medalists.
 */
 
 const numberWomenMedalists = country => {
-  return;
+  return `SELECT COUNT(DISTINCT name) FROM GoldMedal WHERE country = '${country}' AND gender = 'Women';`;
 };
 
 /*
@@ -102,7 +102,7 @@ Returns a SQL query string that will find the athlete with the most medals.
 */
 
 const mostMedaledAthlete = country => {
-  return;
+  return `SELECT name FROM GoldMedal WHERE country = '${country}' GROUP BY name ORDER BY COUNT(*) DESC LIMIT 1;`;
 };
 
 /*
@@ -111,7 +111,15 @@ optionally ordered by the given field in the specified direction.
 */
 
 const orderedMedals = (country, field, sortAscending) => {
-  return;
+  let orderingString = '';
+  if (field) {
+    if (sortAscending) {
+      orderingString = `ORDER BY ${field} ASC`;
+    } else {
+      orderingString = `ORDER BY ${field} DESC`;
+    }
+  }
+  return `SELECT * FROM GoldMedal WHERE country = '${country}' ${orderingString};`;
 };
 
 /*
